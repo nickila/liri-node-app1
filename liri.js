@@ -15,36 +15,35 @@ var input = process.argv.slice(3).join(" ");
 
 function liriDo() {
     if (action === "concert-this") {
-
         axios.get("https://rest.bandsintown.com/artists/" + input + "/events?app_id=codingbootcamp")
             .then(function (response) {
                 console.log("");
+                var movieInfo;
                 for (var i = 0; i < 5; i++) {
-                    console.log(response.data[i].venue.name);
-                    console.log((response.data[i].venue.city) + ", " + (response.data[i].venue.region));
-                    console.log(moment(response.data[i].datetime).format("MM/DD/YYYY"));
-                    console.log("");
+                    movieInfo = ("\n" + (response.data[0].lineup[0]) + "\n" + (response.data[i].venue.name) + "\n" +
+                        (response.data[i].venue.city) + "," +
+                        (response.data[i].venue.region) + "\n" +
+                        (moment(response.data[i].datetime).format("MM/DD/YYYY")) + "\n");
+                    console.log(movieInfo);
+                    fs.appendFile("concert-log.txt", movieInfo, function read(err, data) {
+                        if (err) {
+                            throw err;
+                        }
+                    });
                 }
             })
             .catch(function (error) {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
                     console.log(error.response.data);
                     console.log(error.response.status);
                     console.log(error.response.headers);
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an object that comes back with details pertaining to the error that occurred.
                     console.log(error.request);
                 } else {
-                    // Something happened in setting up the request that triggered an Error
                     console.log("Error", error.message);
                 }
                 console.log(error.config);
             });
-
-
 
     } else if (action === "spotify-this-song" && input) {
         spotify.search({ type: 'track', query: input, limit: 1 }, function (err, data) {
@@ -52,38 +51,59 @@ function liriDo() {
                 return console.log('Error occurred: ' + err);
             }
             var songPath = data.tracks.items[0]
-            console.log("");
-            console.log(songPath.album.artists[0].name)
-            console.log(songPath.name)
+            var spotResP = ("\n" + songPath.album.artists[0].name + "\n" + songPath.name + "\n" + songPath.preview_url + "\n" + songPath.album.name + "\n")
+            var spotResF = ("\n" + songPath.album.artists[0].name + "\n" + songPath.name + "\n" + songPath.external_urls.spotify + "\n" + songPath.album.name + "\n")
+            console.log(spotResP)
             if (songPath.preview_url) {
-                console.log(songPath.preview_url)
+                console.log(spotResP)
+                fs.appendFile("spotify-log.txt", "\n" + action + ", " + input + spotResP, function read(err, data) {
+                    if (err) {
+                        throw err;
+                    }
+                })
             } else if (songPath.external_urls.spotify) {
-                console.log(songPath.external_urls.spotify)
+                console.log(spotResF)
+                fs.appendFile("spotify-log.txt", "\n" + action + ", " + input + spotResF, function read(err, data) {
+                    if (err) {
+                        throw err;
+                    }
+                })
             } else {
-                console.log("Sorry, no preview available.")
+                console.log("Sorry, preview not available.")
             }
-            console.log(songPath.album.name)
-            console.log("")
-        });
+        })
+
 
     } else if (action === "spotify-this-song" && !input) {
-        spotify.search({ type: 'track', query: "The+Sign", limit: 1 }, function (err, data) {
-            if (err) {
-                return console.log('Error occurred: ' + err);
-            }
-            var songPath = data.tracks.items[0]
-            console.log("");
-            console.log(songPath.album.artists[0].name)
-            console.log(songPath.name)
-            if (songPath.preview_url) {
-                console.log(songPath.preview_url)
-            } else if (songPath.external_urls.spotify) {
-                console.log(songPath.external_urls.spotify)
-            } else {
-                console.log("Sorry, no preview available.")
-            }
-            console.log(songPath.album.name)
-        });
+        spotify.request('https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE')
+            .then(function (data) {
+                var spotNull = ("\n" + data.artists[0].name + "\n" + data.name + "\n" + data.external_urls.spotify + "\n" + data.album.name + "\n")
+                console.log(spotNull);
+                fs.appendFile("spotify-log.txt", "\n" + action + ", (no song entered):" + spotNull, function read(err, data) {
+                    if (err) {
+                        throw err;
+                    }
+                });
+
+
+                //   var songPath = data.tracks.items[0]
+                //     console.log("");
+                //     console.log(songPath.album.artists[0].name)
+                //     console.log(songPath.name)
+                //     if (songPath.preview_url) {
+                //         console.log(songPath.preview_url)
+                //     } else if (songPath.external_urls.spotify) {
+                //         console.log(songPath.external_urls.spotify)
+                //     } else {
+                //         console.log("Sorry, no preview available.")
+                //     }
+                //     console.log(songPath.album.name); 
+            })
+            .catch(function (err) {
+                console.error('Error occurred: ' + err);
+            });
+
+
 
     } else if (action === "movie-this" && input) {
         axios.get("https://www.omdbapi.com/?apikey=trilogy&t=" + input)
