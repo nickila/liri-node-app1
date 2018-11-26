@@ -84,59 +84,77 @@ function liriDo() {
                         throw err;
                     }
                 });
-
-
-                //   var songPath = data.tracks.items[0]
-                //     console.log("");
-                //     console.log(songPath.album.artists[0].name)
-                //     console.log(songPath.name)
-                //     if (songPath.preview_url) {
-                //         console.log(songPath.preview_url)
-                //     } else if (songPath.external_urls.spotify) {
-                //         console.log(songPath.external_urls.spotify)
-                //     } else {
-                //         console.log("Sorry, no preview available.")
-                //     }
-                //     console.log(songPath.album.name); 
             })
             .catch(function (err) {
                 console.error('Error occurred: ' + err);
             });
 
-
-
     } else if (action === "movie-this" && input) {
         axios.get("https://www.omdbapi.com/?apikey=trilogy&t=" + input)
             .then(function (response) {
-                console.log("");
-                console.log(response.data.Title)
-                console.log(response.data.Year)
-                console.log("IMDB Rating: " + response.data.imdbRating)
-                if (response.data.Ratings[1] && response.data.Ratings[1].Source === "Rotten Tomatoes") {
-                    console.log(response.data.Ratings[1].Source + ": " + response.data.Ratings[1].Value)
-                } else {
-                    console.log("Rotten Tomatoes: N/A")
+                
+                
+                // console.log("");
+                // console.log(response.data.Title)
+                // console.log(response.data.Year)
+                // console.log("IMDB Rating: " + response.data.imdbRating)
+                console.log(response.data.Ratings)
+                if (!response.data.Ratings[1] || response.data.Ratings[1].Source !== "Rotten Tomatoes") {
+                    var movieInfo = ("\n" + response.data.Title + "\n" + response.data.Year + "\nIMDB Rating: " + response.data.imdbRating + "\n" + "Rotten Tomatoes: N/A\nMade in " + response.data.Country + "\nLanguage: " + response.data.Language + "\nPlot: " + response.data.Plot + "\nStarring: " + response.data.Actors + "\n")
+                    console.log(movieInfo)
+                    fs.appendFile("movie-log.txt", "\n" + action + ", " + input + movieInfo, function read(err, data) {
+                        if (err) {
+                            throw err;
+                        }
+                    })
+                } else if (response.data.Ratings[1] && response.data.Ratings[1].Source === "Rotten Tomatoes") {
+                    var movieInfo = ("\n" + response.data.Title + "\n" + response.data.Year + "\nIMDB Rating: " + response.data.imdbRating + "\n" + response.data.Ratings[1].Source + ": " + response.data.Ratings[1].Value + "\nMade in " + response.data.Country + "\nLanguage: " + response.data.Language + "\nPlot: " + response.data.Plot + "\nStarring: " + response.data.Actors + "\n")
+                    console.log(movieInfo)
+                    fs.appendFile("movie-log.txt", "\n" + action + ", " + input + movieInfo, function read(err, data) {
+                        if (err) {
+                            throw err;
+                        }
+                    })
                 }
-                console.log("Made in " + response.data.Country)
-                console.log("Language: " + response.data.Language)
-                console.log("Plot: " + response.data.Plot)
-                console.log("Starring: " + response.data.Actors)
-                console.log("");
+                // console.log("Made in " + response.data.Country)
+                // console.log("Language: " + response.data.Language)
+                // console.log("Plot: " + response.data.Plot)
+                // console.log("Starring: " + response.data.Actors)
+                // console.log("");
             });
     } else if (action === "movie-this" && !input) {
         axios.get("https://www.omdbapi.com/?apikey=trilogy&t=mr+nobody")
             .then(function (response) {
-                console.log("");
+                var movieInfo = ("\n" + response.data.Title + "\n" + response.data.Year + "\nIMDB Rating: " + response.data.imdbRating + "\nRotten Tomatoes: N/A" + "\nMade in " + response.data.Country + "\nLanguage: " + response.data.Language + "\nPlot: " + response.data.Plot + "\nStarring: " + response.data.Actors + "\n")
+                var movieInfoRT = ("\n" + response.data.Title + "\n" + response.data.Year + "\nIMDB Rating: " + response.data.imdbRating + "\n" + response.data.Ratings[1].Source + ": " + response.data.Ratings[1].Value + "\nMade in " + response.data.Country + "\nLanguage: " + response.data.Language + "\nPlot: " + response.data.Plot + "\nStarring: " + response.data.Actors + "\n")
+                if (response.data.Ratings[1] && response.data.Ratings[1].Source === "Rotten Tomatoes") {  
+                    console.log(movieInfoRT)
+                    fs.appendFile("movie-log.txt", "\n" + action + ", (no movie entered)" + movieInfoRT, function read(err, data) {
+                        if (err) {
+                            throw err;
+                        }
+                    })
+                } else {
+                    console.log(movieInfo)
+                    fs.appendFile("movie-log.txt", "\n" + action + ", (no movie entered)" + movieInfo, function read(err, data) {
+                        if (err) {
+                            throw err;
+                        }
+                    })
+                }
 
-                console.log(response.data.Title)
-                console.log(response.data.Year)
-                console.log("IMDB Rating: " + response.data.imdbRating)
-                console.log(response.data.Ratings[1].Source + ": " + response.data.Ratings[1].Value)
-                console.log("Made in " + response.data.Country)
-                console.log("Language: " + response.data.Language)
-                console.log("Plot: " + response.data.Plot)
-                console.log("Starring: " + response.data.Actors)
-                console.log("");
+
+
+                // console.log("");
+                // console.log(response.data.Title)
+                // console.log(response.data.Year)
+                // console.log("IMDB Rating: " + response.data.imdbRating)
+                // console.log(response.data.Ratings[1].Source + ": " + response.data.Ratings[1].Value)
+                // console.log("Made in " + response.data.Country)
+                // console.log("Language: " + response.data.Language)
+                // console.log("Plot: " + response.data.Plot)
+                // console.log("Starring: " + response.data.Actors)
+                // console.log("");
             });
     }
 
