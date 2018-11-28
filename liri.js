@@ -51,9 +51,12 @@ function liriDo() {
                 return console.log('Error occurred: ' + err);
             }
             var songPath = data.tracks.items[0]
-            var spotResP = ("\n" + songPath.album.artists[0].name + "\n" + songPath.name + "\n" + songPath.preview_url + "\n" + songPath.album.name + "\n")
+            var spotResP = ("\n" + songPath.album.artists[0].name + "\n" + 
+            songPath.name + "\n" + 
+            songPath.preview_url + "\n" + 
+            songPath.album.name + "\n")
             var spotResF = ("\n" + songPath.album.artists[0].name + "\n" + songPath.name + "\n" + songPath.external_urls.spotify + "\n" + songPath.album.name + "\n")
-            console.log(spotResP)
+            
             if (songPath.preview_url) {
                 console.log(spotResP)
                 fs.appendFile("spotify-log.txt", "\n" + action + ", " + input + spotResP, function read(err, data) {
