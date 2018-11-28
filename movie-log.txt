@@ -38,3 +38,23 @@ Made in USA
 Language: English
 Plot: Tommy, who is unable to celebrate Christmas because his mom says Santa isn't real, leaves his kittens out for Santa to take back to the North Pole, but after a major allergic reaction Santa...
 Starring: Ezra James Colbert, Nicola Lambo, John P. Fowler, Jordan Bielsky
+
+movie-this, forrest gump
+Forrest Gump
+1994
+IMDB Rating: 8.8
+Rotten Tomatoes: 73%
+Made in USA
+Language: English
+Plot: The presidencies of Kennedy and Johnson, Vietnam, Watergate, and other history unfold through the perspective of an Alabama man with an IQ of 75.
+Starring: Tom Hanks, Rebecca Williams, Sally Field, Michael Conner Humphreys
+
+movie-this, "how the grinch stole christmas"
+How the Grinch Stole Christmas
+2000
+IMDB Rating: 6.1
+Rotten Tomatoes: 53%
+Made in USA, Germany
+Language: English
+Plot: On the outskirts of Whoville, there lives a green, revenge-seeking Grinch who plans on ruining the Christmas holiday for all of the citizens of the town.
+Starring: Jim Carrey, Taylor Momsen, Kelley, Jeffrey Tambor
