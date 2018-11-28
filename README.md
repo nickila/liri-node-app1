@@ -15,6 +15,7 @@ movie-this will take the name of a movie and give you the data associated with t
 
 do-what-it-says takes two arguments from the included random.txt file and does what it says. If the first argument is 'movie-this' and the second is a movie, it will find the info for that movie.
 
-This was created by Brian Nickila, following detailed instructions by U of M Coding Boot Camp course in November 2018 using JavaScript, Node.js, node-spotify-api, axios, moment, fs, dotenv, bandsintown api, omdb api and spotify.
+The code found here was written by Brian Nickila, following detailed instructions by U of M Coding Boot Camp course in November 2018 using JavaScript, Node.js, node-spotify-api, axios, moment, fs, dotenv, bandsintown api, omdb api and spotify. To use this bot yourself, you will need to supply your own api keys and secret codes.
 
+Please see the finished bot in action here:
 https://youtu.be/5xrNWvOqVV0
